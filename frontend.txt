@@ -1,0 +1,45 @@
+package.json: "bootstrap": "5.1.3" utána npm i
+angular json: styles -  "node_modules/bootstrap/dist/css/bootstrap.min.css" ; scripts - "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+ng add @angular/material
+import {MatTableModule} from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+this.http.get<any[]>("http://localhost:5000/api/ingatlan").subscribe(
+      {
+        next: (data: any[]) => this.list=data,
+        error: error => console.log(error)
+      }
+    )
+	
+	<ng-container matColumnDef="kepUrl">
+        <th mat-header-cell *matHeaderCellDef> Kép </th>
+        <td mat-cell *matCellDef="let element"> <img [src]="element.kepUrl" alt="" style="height: 100px;"></td>
+      </ng-container>
+	  
+	  <ng-container matColumnDef="tehermentes">
+      <th mat-header-cell *matHeaderCellDef> Tehermentes </th>
+      <td mat-cell *matCellDef="let element">
+          <span *ngIf="element.tehermentes" class="text-success">Igen</span> 
+          <span *ngIf="!element.tehermentes" class="text-danger">Nem</span> 
+        </td>
+    </ng-container>
+	
+	send(): void {
+    this.model.kategoriaId = Number(this.model.kategoriaId);
+    this.http.post("http://localhost:5000/api/ujingatlan", this.model).subscribe(
+      {
+        next: (data: any) => this.router.navigate(['/offers']),
+        error: error => this.errorMessage = error.message 
+      }
+    );
+  }
+  
+    categories: any[] = [];
+  model = {
+    kategoriaId : 0,
+    leiras: '',
+    hirdetesDatuma: new Date().toISOString().substring(0,10),
+    tehermentes: true,
+    kepUrl: '' 
+  }
